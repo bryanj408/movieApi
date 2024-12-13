@@ -29,7 +29,6 @@ fs.appendFile('log.txt', 'URL: ' + addr + '\nTimestamp: ' + new Date() + '\n\n',
         if (err) {
             throw err;
         }
-
         response.writeHead(200, { 'Content-Type': 'text/html'});
         response.write(data);
         response.end();
@@ -37,14 +36,3 @@ fs.appendFile('log.txt', 'URL: ' + addr + '\nTimestamp: ' + new Date() + '\n\n',
 
 }).listen(8080);
 console.log('My first node test server is runnning on port 8080');
-
-
-// 'log.txt', `URL: ${addr} \nTimestamp: ${new Date()} \n\n`, (err) => 
-
-// fs.appendFile('log.txt', 'Test log entry\n', (err) => {
-//     if (err) {
-//         console.error('Error writing test log entry:', err);
-//     } else {
-//         console.log('Test log entry added.');
-//     }
-// });
