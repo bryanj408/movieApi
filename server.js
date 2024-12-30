@@ -10,21 +10,24 @@ http.createServer((request, response) => {
     q = new URL(addr, 'http://' + request.headers.host),
     filePath = '';
 
-fs.appendFile('log.txt', 'URL: ' + addr + '\nTimestamp: ' + new Date() + '\n\n', (err) => {
-    if (err) {
-        console.error('Error writing to log.txt', err);
-    } else {
-        console.log('Added to log.')
-           }
+    // Log the URL and timestamp to log.txt
+    fs.appendFile('log.txt', 'URL: ' + addr + '\nTimestamp: ' + new Date() + '\n\n', (err) => {
+        if (err) {
+            console.error('Error writing to log.txt', err);
+        } else {
+            console.log('Added to log.')
+        }
     });
     
+    // Determine the file path based on the URL
     if (q.pathname.includes('documentation')) {
         filePath = (__dirname + '/documentation.html');
     } else {
-        console.log('Bad URL, redireting to home');
+        console.log('Bad URL, redirecting to home');
         filePath = 'index.html';
     }
 
+    // Read and send the file content
     fs.readFile(filePath, (err, data) => {
         if (err) {
             throw err;
@@ -35,4 +38,6 @@ fs.appendFile('log.txt', 'URL: ' + addr + '\nTimestamp: ' + new Date() + '\n\n',
     });
 
 }).listen(8080);
-console.log('My first node test server is runnning on port 8080');
+
+// Log that the server is running
+console.log('My first node test server is running on port 8080');
