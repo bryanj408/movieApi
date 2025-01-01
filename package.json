@@ -20,6 +20,11 @@
   },
   "homepage": "https://github.com/bryanj408/movieApi#readme",
   "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "eslint": "^9.17.0"
   }
 }
