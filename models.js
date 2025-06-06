@@ -19,7 +19,7 @@ let userSchema = Schema({
     Password: {type: String, required: true},
     Email: {type: String, required: true},
     Birthday: Date,
-    FavoriteNpcs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Npc'}],
+    FavoriteNpcs: [{ type: Schema.Types.ObjectId, ref: 'Npc'}], //deleted 'mongoose'.Schema
     collection: 'users',
     strict: false
 });
