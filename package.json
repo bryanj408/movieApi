@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/bryanj408/movieApi#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "body-parser": "^1.20.3",
     "express": "^4.21.2",
     "lodash": "^4.17.21",
