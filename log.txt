@@ -22,3 +22,7 @@
 ::1 - - [15/Jan/2025:17:34:50 +0000] "GET /movies HTTP/1.1" 500 16
 ::1 - - [15/Jan/2025:17:35:21 +0000] "GET /movies HTTP/1.1" 200 157
 ::1 - - [15/Jan/2025:17:54:25 +0000] "GET /movies HTTP/1.1" 200 1563
+Thu Jun 19 2025 14:11:40 GMT-0700 (Pacific Daylight Time)().toISOString()}: Server started on port 8080
+Thu Jun 19 2025 14:12:10 GMT-0700 (Pacific Daylight Time)().toISOString()}: MongoDB connection error: connect ECONNREFUSED 127.0.0.1:27017, connect ECONNREFUSED ::1:27017
+Thu Jun 19 2025 14:17:59 GMT-0700 (Pacific Daylight Time)().toISOString()}: Server started on port 8080
+Thu Jun 19 2025 14:18:29 GMT-0700 (Pacific Daylight Time)().toISOString()}: MongoDB connection error: connect ECONNREFUSED 127.0.0.1:27017, connect ECONNREFUSED ::1:27017
