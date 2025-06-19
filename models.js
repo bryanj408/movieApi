@@ -10,9 +10,9 @@ let npcSchema = Schema({
         description: { type: String, required: false }
     }],
     Lore: { type: String, required: false },
-    collection: 'npcs',
-    strict: false
-});
+    npcCollection: { type: String, default: 'npcs' },
+    
+}, {strict: false});
 
 let userSchema = Schema({
     Username: {type: String, required: true},
@@ -20,11 +20,11 @@ let userSchema = Schema({
     Email: {type: String, required: true},
     Birthday: Date,
     FavoriteNpcs: [{ type: Schema.Types.ObjectId, ref: 'Npc'}], //deleted 'mongoose'.Schema
-    collection: 'users',
-    strict: false
-});
+    userCollection: { type: String, default: 'users' },
+    
+}, {strict: false});
 
 const Npc = mongoose.model('Npc', npcSchema);
 const User = mongoose.model('User', userSchema);
 
-export {Npc, User};
+export default {Npc, User};
