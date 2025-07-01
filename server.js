@@ -32,7 +32,7 @@ async function logMessage(message) {
     }
 }
 
-mongoose.connect('mongodb://localhost:27017/movieApi')
+mongoose.connect('mongodb://127.0.0.1:27017/eldenWiki', { family: 4 }) // Use family: 4 to force IPv4
     .then(async () => {
         console.log('Connected to MongoDB');
         await logMessage('MongoDB Connected');
@@ -47,6 +47,30 @@ app.get('/', (req, res) => {
     res.send('Welcome to my API');
 });
 
+//Get all Users
+app.get('/users', async (req, res) => {
+    try {
+        const users = await Users.find();
+        res.json(users);
+    }
+    catch (error) {
+        await logMessage('Error fetching users: ' + error.message);
+        console.error('Error fetching users:', error);
+        res.status(500).send('Error fetching users');
+    }
+});
+
+app.get('/users/:Username', async (req, res) => {
+    try {
+        const user = await Users.findOne({ Username: req.params.Username });
+        res.json(user);
+    } catch (error) {
+        await logMessage(`Error fetching user ${req.params.Username}: ${error.message}`);
+        console.error('Error fetching user:', error);
+        res.status(500).send(`Error fetching user: ${error.message}`);
+    }
+})
+
 //Add a user
 app.post('/users', async (req, res) => {
     try {
@@ -57,7 +81,7 @@ app.post('/users', async (req, res) => {
             return res.status(400).send('All fields (Username, Password, Email) are required');
         }
 
-        const existingUser = await User.findOne({ Username });
+        const existingUser = await Users.findOne({ Username });
         if (existingUser) {
             await logMessage(`User creation failed: ${Username} already exists`)
             return res.status(400).send(`${Username} already exists`);
@@ -65,7 +89,7 @@ app.post('/users', async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(Password, 10);
 
-        const user = await User.create({
+        const user = await Users.create({
             Username,
             Password: hashedPassword,
             Email,
@@ -81,12 +105,46 @@ app.post('/users', async (req, res) => {
     }
 });
 
-app.use((err, req, res, next) => {
-    const errorMessage = `Server error: ${error.message}`;
-    logMessage(errorMessage);
-    console,error(error.stack);
-    res.status(500).send('Something broke!');
+//Update users
+app.put('/users/:Username', async (req, res) => {
+    try {
+        const updateUser = await Users.findOneAndUpdate(
+            { Username: req.params.Username },
+            {
+                $set: {
+                    Username: req.body.Username,
+                    Password: req.body.Password,
+                    Email: req.body.Email,
+                    Birthday: req.body.Birthday,
+                },
+            },
+            { new: true }
+        );
+
+        res.json(updateUser);
+    } catch (error) {
+        await logMessage(`Error updating user ${req.params.Username}: ${error.message}`);
+        console.error('Error updating user:', error);
+        res.status(500).send(`Error updating user: ${error.message}`);
+    }
 });
+
+//Delete users
+app.delete('/users/:Username', async (req, res) => {
+    try {
+        const deletedUser = await Users.findOneAndDelete({ Username: req.params.Username });
+        if (!deletedUser) {
+            await logMessage(`User deletion failed: ${req.params.Username} User not found`);
+            return res.status(404).send(`User ${req.params.Username} not found`);
+        } 
+        await logMessage(`User deleted: ${req.params.Username}`);;
+        res.json(deletedUser);
+    } catch (error) {
+        await logMessage('Error deleting user: ' + error.message);
+        res.status(500).send('Error deleting user: ' + error.message);
+        console.error('Error deleting user:', error);
+    }
+}); 
 
 const PORT = 8080;
 
